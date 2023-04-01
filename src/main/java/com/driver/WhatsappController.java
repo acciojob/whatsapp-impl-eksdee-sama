@@ -23,9 +23,10 @@ public class WhatsappController {
     WhatsappService whatsappService = new WhatsappService();
 
     @PostMapping("/add-user")
-    public String createUser(String name, String mobile) throws Exception {
+    public String createUser(@RequestParam("q") String name,@RequestParam("r") String mobile) throws Exception {
         //If the mobile number exists in database, throw "User already exists" exception
         //Otherwise, create the user and return "SUCCESS"
+        if(whatsappService.checkNewUser(mobile)) throw new Exception("User already exists");
 
         return whatsappService.createUser(name, mobile);
     }
@@ -69,7 +70,7 @@ public class WhatsappController {
 
         return whatsappService.changeAdmin(approver, user, group);
     }
-
+    /*
     @DeleteMapping("/remove-user")
     public int removeUser(User user) throws Exception{
         //This is a bonus problem and does not contains any marks
@@ -89,5 +90,5 @@ public class WhatsappController {
         // If the number of messages between given time is less than K, throw "K is greater than the number of messages" exception
 
         return whatsappService.findMessage(start, end, K);
-    }
+    } */
 }
